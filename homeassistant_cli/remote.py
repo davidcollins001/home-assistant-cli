@@ -589,3 +589,25 @@ def get_services(
     raise HomeAssistantCliError(
         f"Error while getting all services: {req.text}"
     )
+
+
+def get_integrations(ctx: Configuration) -> List[Dict[str, Any]]:
+    """Return all integrations."""
+    frame = {'type': 'manifest/list'}
+
+    integrations = cast(Dict, wsapi(ctx, frame))[
+        'result'
+    ]  # type: List[Dict[str, Any]]
+
+    return integrations
+
+
+def setup_info(ctx: Configuration, integration) -> List[Dict[str, Any]]:
+    """Return all integrations."""
+    frame = {'type':  'manifest/get', 'integration': integration}
+
+    integrations = cast(Dict, wsapi(ctx, frame))[
+        'result'
+    ]  # type: List[Dict[str, Any]]
+
+    return integrations
